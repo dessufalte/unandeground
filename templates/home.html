@@ -1,0 +1,60 @@
+{% set style = url_for('static', filename='style.css') %}
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="{{ style }}">
+
+</head>
+<body>
+  <div class="header-container">
+    <div class="mainimg">
+      <div class="img-container">
+        <img src="{{ image_url }}" class="centerimg">
+      </div>
+      <div class="forms">
+
+      
+      <form action="/login" method="post">
+        <div class="button-container">
+          <input type="text" name="username" id="inputID" class="custom-input" placeholder="Username" required>
+          <input type="password" name="password" id="pass" class="custom-input" placeholder="Password" required>
+          <div class="btn-group-vertical">
+           
+            <button type="submit" id="cdbButton">Pair</button>
+          </div>
+         
+        </div>
+      </form>
+      <div class="vertical-hr"></div>
+      <form action="/create" method="post">
+        <div class="button-container">
+            <input type="text" name="username" id="inputID" class="custom-input" placeholder="Username" required>
+            <input type="password" name="password" id="pass" class="custom-input" placeholder="Password" required>
+            <div class="btn-group-vertical">
+                <button type="submit" id="stbButton">Create Account</button>
+            </div>
+        </div>
+    </form>    
+    </div>
+    <div class="flash">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          <div class="flash-messages">
+              {% for message in messages %}
+                  <div class="flash-message">{{ message }}</div>
+              {% endfor %}
+          </div>
+      {% endif %}
+      {% endwith %}
+    </div>
+ 
+    </div>
+    <div class="footer">
+      <a href="/dashboard">Link</a>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </div>
+  </div>
+</body>
+</html>

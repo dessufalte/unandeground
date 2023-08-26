@@ -1,0 +1,120 @@
+html, body {
+    background-color: #18274f;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; 
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  body {
+    align-items: center;
+  }
+
+  .header-container {
+    background-color: #18274f;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    color: #fff;
+  }
+
+  .mainimg {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .centerimg {
+    display: block;
+    margin-left: auto;
+    height: auto;
+    margin-right: auto;
+    max-width: 100%;
+  }
+
+  .img-container {
+    background-color: #18274f;
+    margin: 6%;
+  }
+
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 10px;
+  }
+
+  .btn-group-vertical button {
+    margin: 10px;
+    padding: 15px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #ffffff;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #18274f;
+    border: 2px solid #ffffff;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0px 4px 6px rgba(114, 224, 215, 0.388);
+  }
+
+  .btn-group-vertical button:hover {
+    background-color: #f4f5f5;
+    color: #18274f;
+    transform: translateY(-2px);
+  }
+  
+
+  .footer {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: rgb(200, 193, 168); 
+  }
+  .btn-group-vertical button:active {
+    transform: scale(0.9); 
+  }
+  .custom-input {
+    font-family: 'Courier New', Courier, monospace;
+    padding: 10px;
+    background-color: #1f3267;
+    color: #fff;
+    border-style: none;
+    font-size: 16px;
+    border-radius: 6px;
+    outline: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .custom-input:focus {
+    background-color: #2a4389;
+    border-color: #18274f;
+  }
+  .forms{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+  }
+  .forms form{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    width: auto;
+  }
+  .vertical-hr {
+    width: 1px; 
+    height: 100px; 
+    background-color:#fff ; 
+    margin: 0 10px; 
+  }

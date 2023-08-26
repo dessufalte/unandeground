@@ -1,0 +1,195 @@
+{% set style = url_for('static', filename='style-ds.css') %}
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+      <link rel="stylesheet" href="{{ style }}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+   </head>
+   <body>
+      <div class="container">
+         <form class="search-form">
+            <input type="text" placeholder="Search..." required>
+            <button type="submit"><i class="fas fa-search"></i></button>
+         </form>
+         {% for thread in threads_with_pfp %}
+         <div class="sidebar-item" id="redirectToid">
+            #{{ thread[0] }}
+            <div class="tags-c">
+               {% if thread[7] is not none and thread[7] != "" %}
+               {% for tag in thread[7].split(',') %}
+               <div class="tags-item">
+                  <i class="fa fa-tag" aria-hidden="true"></i>
+                  <h6 class="tags-titl">{{ tag }}</h6>
+               </div>
+               {% endfor %}
+               {% endif %}
+            </div>
+         </div>
+         {% endfor %}
+      </div>
+      <div class="content">
+         <div class="contentmaker">
+            <form class="content-c" method="post" action="/create_thread">
+               <textarea name="thread_content" placeholder="Thread..." required></textarea>
+               <button type="submit"><i class="fas fa-paper-plane"></i></button>
+            </form>
+         </div>
+         <div class="separator"></div>
+         <div class="popcontainer">
+            {% for thread in threads_with_pfp %}
+            <div class="threaders">
+               <div class="thread">
+                  <div class="user-t">
+                     <div class="imgparent"><img src="{{ url_for('static', filename = thread[9]) }}" class="usrt-img">
+                     </div>
+                     <div class="usernamecon">
+                        <h3>{{thread[11]}}</h3>
+                     </div>
+                  </div>
+                  <h6 style="color:#00ADB5 ;">{{ thread[10]}}</h6>
+                  {% if thread[3] is not none and thread[3] != "" %}
+                  <h3>{{ thread[8] }}</h3>
+                  {% endif %}
+                  <p>{{ thread[12] }}</p>
+                  <div class="properties">
+                     <div class="tags-c">
+                        {% if thread[7] is not none and thread[7] != "" %}
+                        {% for tag in thread[7].split(',') %}
+                        <div class="tags-item">
+                           <i class="fa fa-tag" aria-hidden="true"></i>
+                           <h6 class="tags-titl">{{ tag }}</h6>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                     </div>
+                     <div class="property-cont">
+                        <div class="thread-icons" onclick="showComments(this)">
+                           <i class="fa fa-comment comment-icon" aria-hidden="true" id="comment-icon"></i>
+                           <i class="fa fa-window-close close-icon hidden" aria-hidden="true" id="close-icon"></i>
+                           <div class="commen">0</div>
+                        </div>
+                        <div class="thread-icons">
+                           <i class="fa fa-arrow-up" aria-hidden="true" onclick="upvoteThread({{ thread[0] }});"></i> <!-- abaikan -->
+                           <div class="up">{{ thread[4] }}</div>
+                        </div>
+                        <div class="thread-icons">
+                           <i class="fa fa-arrow-down" aria-hidden="true" onclick="downvoteThread({{ thread[0] }});"></i><!-- abaikan -->
+                           <div class="down">{{ thread[5] }}</div>
+                        </div>
+                        <div class="thread-icons">
+                           <i class="fa fa-eye" aria-hidden="true"></i>
+                           <div class="views">{{ thread[6] }}</div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="commentbar">
+                  <h3 style="margin-left: 10px;">Comment</h3>
+                  <div class="comment-coloum">
+                     {% for comment in thread[0]|get_comments %}
+                     <div class="kommen">
+                        <div class="main-kommen">
+                           <div class="usrkommen-header">
+                              <div class="u-kommen-img"><img src="{{ url_for('static', filename= comment[7]) }}" class="u-img"></div>
+                              <div class="u-name"> {{ comment[9] }}</div>
+                           </div>
+                           <div class="comment-container">
+                              <div class="commentary" onclick="showReplyForm(this)">
+                                 <div class="hidden id">{{ comment[0] }}</div>
+                                 {{ comment[4] }} 
+                                 <div class="comment-date">{{ comment[8] }}</div>
+                              </div>
+                              <div class="comment-properties">
+                                 <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                                 <div class="comment-likes">{{ comment[5] }}</div>
+                              </div>
+                           </div>
+                        </div>
+                        {% for reply in thread[0]|get_reply %}
+                        <div class="reply-container">
+                           {% if comment[0] == reply[6] %}
+                           <div class="reply-component">
+                              <div class="usrkommen-header">
+                                 <i class="fa fa-arrow-right"></i>
+                                 <div class="u-kommen-img"><img src="{{ url_for('static', filename= reply[7]) }}" class="u-img"></div>
+                                 <div class="u-name">{{reply[9]}}</div>
+                              </div>
+                              <div class="comment-container">
+                                 <div class="rcommentary">
+                                    {{reply[4]}} 
+                                    <div class="comment-date">{{reply[8]}}</div>
+                                 </div>
+                                 <div class="comment-properties">
+                                    <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                                    <div class="comment-likes">0</div>
+                                 </div>
+                              </div>
+                           </div>
+                           {% endif %}
+                        </div>
+                        {% endfor %}
+                     </div>
+                     {% endfor %}
+                     <form action="{{ url_for('post_comment', thread_id=thread[0]) }}" method="POST">
+                        <div class="reply_flag">
+                           this is reply flag
+                        </div>
+                        <button type="button" class="data-reply-form" onclick="cancelReply(this)">Cancel</button>
+                        <div class="comment-maker">
+                           <input type="hidden" name="parent_id">
+                           <input type="text" name="comment_content" placeholder="Comment..." required>
+                           <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+            {% endfor %}
+            <div class="flash">
+               {% with messages = get_flashed_messages() %}
+               {% if messages %}
+               <div class="flash-messages">
+                  {% for message in messages %}
+                  <div style="color: white;">{{ message }}</div>
+                  {% endfor %}
+               </div>
+               {% endif %}
+               {% endwith %}
+            </div>
+         </div>
+      </div>
+      <div class="right-bar">
+         <div class="profile-s">
+            <div class="pfpcontainer">
+               <img src="{{ url_for('static', filename= pfp_image) }}" class="pfpimage">
+            </div>
+            <div class="biograph">
+               <h2>{{ username }}</h2>
+               <p>
+                  {{ biography }}
+               </p>
+            </div>
+         </div>
+         <div class="form-container">
+            <form class="edit-form" method="post" action="/edit_profile">
+               <div class="form-group">
+                  <label for="username">Username</label>
+                  <input type="text" id="username" name="username" class="styled-input" placeholder="Enter your new username" required>
+               </div>
+               <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" id="password" name="password" class="styled-input" placeholder="Enter your new password" required>
+               </div>
+               <div class="form-group">
+                  <label for="biog">Bio</label>
+                  <textarea id="biog" name="biog" class="styled-input-ta" placeholder="Enter your new biograph" required></textarea>
+               </div>
+               <button type="submit" class="styled-button">Save Changes</button>
+               <a href="/dashboard" class="styled-button">Cancel</a>
+            </form>
+         </div>
+      </div>
+      <script src="{{ script_url }}"></script>
+   </body>
+</html>
